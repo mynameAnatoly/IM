@@ -4,7 +4,7 @@
 Plugin Name: Icon messanger 
 Plugin URI: http://goodweb.by
 Description: отображение иконок месанджеров
-Version:  0.1
+Version:  0.2
 Author: AA
 */
 
@@ -33,13 +33,14 @@ class ImView
 
 	}
 
-
+ 	// Create in header css,jquery
 	function IM_View_header()
 	{
 		wp_enqueue_style( 'style-IMVIEW', plugins_url('css/style-IMVIEW.css', __FILE__));
 		wp_enqueue_script('jquery');
 		wp_enqueue_script( 'JS-IMVIEW', plugins_url('js/JS-IMVIEW.js', __FILE__),array('jquery'));
 	}
+	// Create buttton in footer
 	function IM_View_footer()
 	{
 		if ( !wp_is_mobile() ) {
@@ -53,6 +54,8 @@ class ImView
 		$telegram = $options['IMVIEW_group_telegram']??"";
 		$viber = $options['IMVIEW_group_viber']??"";
 		$phone = $options['IMVIEW_group_phone']??"";
+		$enable= $options['IMVIEW_group_enable']??"";
+		if ((!$instagram and !$telegram and !$viber and !$phone) or (!$enable)  ) {return;}
 		include('circleimg.php');		
 	}
 
@@ -68,6 +71,7 @@ class ImView
 			'dashicons-welcome-widgets-menus',
 			90 );
 	}
+	
 	function IMVIEW_setting_page(){
 		settings_errors();
 		?>
@@ -77,6 +81,7 @@ class ImView
 			do_settings_sections('IMVIEW-options');
 			submit_button(); 
 			?>
+			
 		</form> 
 		<?php 
 
@@ -133,7 +138,7 @@ class ImView
 	function IMVIEW_group_enable_html	()
 	{	$options= get_option('IMVIEW_setting'); 
 	?>
-	<input type="checkbox" name="IMVIEW_setting[IMVIEW_group_enable]" <?php echo isset($options['IMVIEW_group_enable']) ? 'checked="checked"' : "";?>">
+	<input type="checkbox" name="IMVIEW_setting[IMVIEW_group_enable]" <?php echo isset($options['IMVIEW_group_enable']) ? 'checked="checked"' : "";?>>
 	<?php
 }
 
